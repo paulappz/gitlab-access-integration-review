@@ -65,10 +65,6 @@ The `integration` directory encompasses the source code, tests, and configuratio
    # For Python projects
    pip install -r requirements.txt
 
-   # For Node.js projects
-   npm install
-   ```
-
 3. Run tests to ensure the integration works as expected:
 
    ```bash

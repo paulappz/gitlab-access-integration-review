@@ -1,0 +1,24 @@
+{
+  "info": {
+    "name": "GitLab Access Audit",
+    "description": "API requests to audit third-party access in GitLab."
+  },
+  "item": [
+    {
+      "name": "Get External Users",
+      "request": {
+        "method": "GET",
+        "header": [{"key": "PRIVATE-TOKEN", "value": "{{PRIVATE_TOKEN}}"}],
+        "url": "{{GITLAB_URL}}/api/v4/users?extern_uid=*"
+      }
+    },
+    {
+      "name": "Get Project Tokens",
+      "request": {
+        "method": "GET",
+        "header": [{"key": "PRIVATE-TOKEN", "value": "{{PRIVATE_TOKEN}}"}],
+        "url": "{{GITLAB_URL}}/api/v4/projects/:project_id/access_tokens"
+      }
+    }
+  ]
+}

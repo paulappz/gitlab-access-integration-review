@@ -108,3 +108,27 @@ curl --header "PRIVATE-TOKEN: <your_token>" "https://gitlab.example.com/api/v4/p
   - Use **External Secrets Manager** integrations (e.g., AWS Secrets Manager) for production environments.  
 
 ---
+
+## 5. Big-Picture Perspective  
+### Methodology for Visibility & Auditing  
+1. **Inventory Integrations**:  
+   - Maintain a registry of all third-party services (e.g., Jenkins, Slack) with access tokens and scope details.  
+   - Use GitLab’s [`/applications` API endpoint](https://docs.gitlab.com/ee/api/applications.html) to track OAuth-authorized apps. 
+2. **Automate Monitoring**:  
+   - Script periodic checks for stale tokens or misconfigured webhooks using GitLab’s API.  
+   - Example: Flag tokens older than 90 days via cron jobs.  
+3. **Audit Workflow**:  
+   - Quarterly review of group/project membership and access levels.  
+   - Validate SAML/SSO configurations with IdP admins (e.g., check certificate expiry).  
+
+### Structured Auditing Approach  
+ Click  the `View structured auditing approach` button to view.
+
+  <details>
+  <summary> View structured auditing approach (click to expand)</summary>
+  <center>
+    <img  src='/img/auditing_approach.png'  border='1px'  />
+  </center>
+
+  </details>
+---

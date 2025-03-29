@@ -82,3 +82,29 @@ curl --header "PRIVATE-TOKEN: <your_token>" "https://gitlab.example.com/api/v4/p
 - **Dependency Poisoning**: Malicious packages in CI/CD scripts or container images. 
 
 ---
+
+## 4. Recommendations  
+### Best Practices for Secure Integrations  
+- **Token Management**:  
+  - Rotate tokens quarterly.  
+  - Avoid hardcoding tokens; use GitLab’s CI/CD variables or external vaults (e.g., HashiCorp Vault).  
+- **Pipeline Security**:  
+  - Restrict runner tags to authorized projects.  
+  - Use `rules` in `.gitlab-ci.yml` to prevent untrusted code execution.  
+  - Validate third-party scripts in pipelines using `allow_failure: false` for critical jobs.  
+- **Monitoring**:  
+  - Enable audit logging and forward logs to a SIEM (e.g., Splunk, ELK Stack).  
+  - Set alerts for abnormal API activity (e.g., bulk repository downloads, frequent access token creation).  
+
+### CI/CD-Specific Guidelines  
+- **Runner Hardening**:  
+  - Run pipelines in isolated Docker containers or Kubernetes pods.  
+  - Disallow privileged mode for runners unless absolutely necessary.  
+- **Script Validation**:  
+  - Use `only`/`except` clauses to control pipeline triggers (e.g., `only: main`).  
+  - Review external contributions with **Merge Request Approval Rules**.  
+- **Secrets Protection**:  
+  - Mask sensitive variables in job logs using GitLab’s `masked` variable feature.  
+  - Use **External Secrets Manager** integrations (e.g., AWS Secrets Manager) for production environments.  
+
+---

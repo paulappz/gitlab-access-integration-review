@@ -127,7 +127,7 @@ curl --header "PRIVATE-TOKEN: <your_token>" "https://gitlab.example.com/api/v4/p
   <details>
   <summary> View structured auditing approach (click to expand)</summary>
   <center>
-    <img  src='/img/auditing_approach.png'  border='1px'  />
+    <img  src='img/auditing_approach.png'  border='1px'  />
   </center>
 
   </details>

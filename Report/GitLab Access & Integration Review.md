@@ -132,3 +132,6 @@ curl --header "PRIVATE-TOKEN: <your_token>" "https://gitlab.example.com/api/v4/p
 
   </details>
 ---
+
+## Conclusion  
+This report provides actionable steps to map, monitor, and secure third-party access to GitLab. By leveraging APIs, enforcing least privilege, and automating audits, teams can maintain visibility and mitigate risks.  

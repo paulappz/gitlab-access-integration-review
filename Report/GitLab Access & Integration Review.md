@@ -30,3 +30,37 @@
 - **Permission Models**:  
   - **OAuth Scopes**: Limit third-party app permissions (e.g., `read_user` or `api`).  
   - **Webhooks**: Secured with secret tokens to validate payloads.  
+
+---
+
+## 2. API Endpoints & Data Access  
+### Key Endpoints for External Access Monitoring  
+| Endpoint | Purpose | Documentation Link |  
+|----------|---------|--------------------|  
+| `/projects/:id/access_tokens` | List project access tokens | [Project Tokens API](https://docs.gitlab.com/ee/api/project_access_tokens.html) |  
+| `/groups/:id/audit_events` | Retrieve group audit logs | [Audit Events API](https://docs.gitlab.com/ee/api/audit_events.html) |  
+| `/projects/:id/webhooks` | Manage project webhooks | [Webhooks API](https://docs.gitlab.com/ee/api/projects.html#list-project-hooks) |  
+| `/users/:id/projects` | List user-accessible projects | [User Projects API](https://docs.gitlab.com/ee/api/users.html#list-user-projects) |  
+
+### Traversing API Relationships  
+To build a complete picture of third-party access:  
+1. **Start with `/users`**: Identify users with external tokens.  
+2. **Query `/projects/:id/access_tokens`**: List tokens per project.  
+3. **Cross-reference `/audit_events`**: Track token usage and API activity.  
+4. **Validate `/webhooks`**: Ensure endpoints are secured and active.  
+
+**Example Workflow**:  
+```bash
+# Get all projects for a user
+curl --header "PRIVATE-TOKEN: <your_token>" "https://gitlab.example.com/api/v4/users/:user_id/projects"
+
+# List access tokens for a project
+curl --header "PRIVATE-TOKEN: <your_token>" "https://gitlab.example.com/api/v4/projects/:project_id/access_tokens"
+
+```
+### Advanced API Query Tips  
+- **Pagination**: Use `per_page` and `page` parameters (e.g., `?per_page=100&page=2`).  
+- **Filtering**: Narrow results with parameters like `active=true` or `expires_after=2023-12-31`.  
+- **Error Handling**: Check for `401 Unauthorized` or `404 Not Found` responses in scripts.  
+
+---

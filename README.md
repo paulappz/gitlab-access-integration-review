@@ -49,7 +49,7 @@ The `integration` directory encompasses the source code, tests, and configuratio
    cd report
    ```
 
-2. Open `index.md` with your preferred Markdown editor to view the report.
+2. Open `GitLab Access & Integration Review.md` with your preferred Markdown editor to view the report.
 
 ### Integration Deliverable
 

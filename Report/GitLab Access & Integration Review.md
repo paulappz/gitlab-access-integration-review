@@ -64,3 +64,21 @@ curl --header "PRIVATE-TOKEN: <your_token>" "https://gitlab.example.com/api/v4/p
 - **Error Handling**: Check for `401 Unauthorized` or `404 Not Found` responses in scripts.  
 
 ---
+
+## 3. Security Considerations  
+### Common Misconfigurations  
+- **Public Project Visibility**: Unintentionally public projects exposing sensitive code.  
+- **Unrestricted Runners**: Runners configured without tag restrictions or running in privileged mode.  
+- **Overly Permissive Tokens**: Tokens with `api` or `write_repository` scopes granted unnecessarily.  
+- **Unvalidated Webhooks**: Webhooks without secret tokens or HTTPS enforcement.  
+
+### CI/CD Pipeline Risks  
+- **Insecure Scripts**: Untrusted scripts in `.gitlab-ci.yml` leading to code injection.  
+- **Exposed Secrets**: Unmasked variables in job logs or hardcoded credentials.  
+- **Malicious Merge Requests**: Pipelines triggered by forks with malicious code.  
+ 
+- **Untrusted Code Execution**: Pipelines executing code from forks or unprotected branches.  
+- **Runner Hijacking**: Shared runners reused across projects leading to cross-contamination.  
+- **Dependency Poisoning**: Malicious packages in CI/CD scripts or container images. 
+
+---

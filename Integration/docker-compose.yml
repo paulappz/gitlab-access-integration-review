@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  gitlab-audit:
+    build: .
+    environment:
+      - GITLAB_URL=${GITLAB_URL}
+      - PRIVATE_TOKEN=${PRIVATE_TOKEN}
+    volumes:
+      - ./.env:/app/.env
+    

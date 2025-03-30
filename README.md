@@ -13,12 +13,24 @@ This repository houses two primary deliverables:
 │   ├── GitLab Access & Integration Review.md
 │   └── img/
 ├── integration/
-│   ├── src/
-│   ├── tests/
+│   ├── api/
+│   │   ├── img/
+│   │   ├── gitlab_client.py
+│   │   └── postman/
+│   │       └── gitlab_collection.json
+│   │       └── README.md
 │   └── config/
-├── .gitignore
+│   │   └── .env.example
+│   ├── tests/
+│   │   └── test_gitlab_client.py
+│   └── .gitignore
+│   └── gitlab-ci.yml
+│   └── docker-compose.yml
+│   └── Dockerfile
+│   └── README.md
 └── README.md
 ```
+
 
 ## Report Deliverable
 
@@ -35,7 +47,7 @@ The `integration` directory encompasses the source code, tests, and configuratio
 
 ### Contents:
 
-- `src/`: Source code files.
+- `api/`: Source code files.
 - `tests/`: Unit and integration tests.
 - `config/`: Configuration files for the integration setup.
 
@@ -69,6 +81,6 @@ The `integration` directory encompasses the source code, tests, and configuratio
 
    ```bash
    # For Python projects
-   pytest
+   PYTHONPATH=. pytest tests/test_gitlab_client.py -v
 
    ```

@@ -131,6 +131,7 @@ curl --header "PRIVATE-TOKEN: <your_token>" "https://gitlab.example.com/api/v4/p
   </center>
 
   </details>
+  
 ---
 
 ## Conclusion  

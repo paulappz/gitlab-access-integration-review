@@ -111,26 +111,41 @@ curl --header "PRIVATE-TOKEN: <your_token>" "https://gitlab.example.com/api/v4/p
 
 ## 5. Big-Picture Perspective  
 ### Methodology for Visibility & Auditing  
-1. **Inventory Integrations**:  
-   - Maintain a registry of all third-party services (e.g., Jenkins, Slack) with access tokens and scope details.  
-   - Use GitLab’s [`/applications` API endpoint](https://docs.gitlab.com/ee/api/applications.html) to track OAuth-authorized apps. 
-2. **Automate Monitoring**:  
-   - Script periodic checks for stale tokens or misconfigured webhooks using GitLab’s API.  
-   - Example: Flag tokens older than 90 days via cron jobs.  
-3. **Audit Workflow**:  
-   - Quarterly review of group/project membership and access levels.  
-   - Validate SAML/SSO configurations with IdP admins (e.g., check certificate expiry).  
+1. **Inventory Integrations**  
+   - Maintain a centralized registry of all third-party services (e.g., Jenkins, Slack, custom bots) with metadata like scope, expiration, and owners.  
+   - Leverage GitLab’s [`/applications`](https://docs.gitlab.com/ee/api/applications.html) API to list OAuth-authorized apps and their scopes.  
+
+2. **Automate Monitoring & Alerts**  
+   - **Scheduled Token Audit**:  
+     - Use cron jobs or GitLab CI scheduled pipelines to query `/access_tokens` and flag tokens older than 90 days.  
+     - Automate expiry alerts via Slack or email using webhook notifications.
+   - **Webhook Validator**:  
+     - Script a periodic job to verify if each webhook uses HTTPS and includes a secret token.
+   - **Membership Drift Detection**:  
+     - Compare current group/project members against a defined policy baseline (YAML/CSV).  
+     - Alert on unauthorized role elevation or unapproved users via GitLab Audit Events API.
+   - **Pipeline Policy Enforcement**:  
+     - Run static analysis on `.gitlab-ci.yml` to detect insecure `script` blocks or unsafe `rules`.  
+     - Auto-comment on Merge Requests that violate secure CI/CD guidelines.  
+
+3. **Centralized Log Collection**  
+   - Stream audit logs and token usage to a SIEM system (e.g., ELK Stack, Splunk).  
+   - Correlate token usage with user sessions, IP addresses, and API activity patterns.
+
+4. **Periodic Access Review Automation**  
+   - Generate monthly access reports with user roles, active tokens, and webhook endpoints per project/group.  
+   - Send reports to security reviewers for sign-off.
 
 ### Structured Auditing Approach  
- Click  the `View structured auditing approach` button to view.
 
-  <details>
-  <summary> View structured auditing approach (click to expand)</summary>
-  <center>
-    <img  src='img/auditing_approach.png'  border='1px'  />
-  </center>
+Click the `View structured auditing approach` button to view.  
 
-  </details>
+<details>  
+<summary> View structured auditing approach (click to expand)</summary>  
+<center>  
+  <img src='img/auditing_approach.png' border='1px' />  
+</center>  
+</details>  
   
 ---
 

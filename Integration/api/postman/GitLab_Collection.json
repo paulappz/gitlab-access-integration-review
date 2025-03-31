@@ -31,7 +31,12 @@
       "name": "Get External Users (SAML/OAuth)",
       "request": {
         "method": "GET",
-        "header": [{"key": "PRIVATE-TOKEN", "value": "{{PRIVATE_TOKEN}}"}],
+        "header": [
+          {
+            "key": "PRIVATE-TOKEN",
+            "value": "{{PRIVATE_TOKEN}}"
+          }
+        ],
         "url": "{{GITLAB_URL}}/api/v4/users?with_identities=true",
         "description": "Docs: https://docs.gitlab.com/ee/api/users.html#list-users"
       }
@@ -40,7 +45,12 @@
       "name": "List Project Access Tokens",
       "request": {
         "method": "GET",
-        "header": [{"key": "PRIVATE-TOKEN", "value": "{{PRIVATE_TOKEN}}"}],
+        "header": [
+          {
+            "key": "PRIVATE-TOKEN",
+            "value": "{{PRIVATE_TOKEN}}"
+          }
+        ],
         "url": "{{GITLAB_URL}}/api/v4/projects/{{PROJECT_ID}}/access_tokens",
         "description": "Docs: https://docs.gitlab.com/ee/api/project_access_tokens.html"
       }
@@ -49,7 +59,12 @@
       "name": "List CI/CD Pipelines",
       "request": {
         "method": "GET",
-        "header": [{"key": "PRIVATE-TOKEN", "value": "{{PRIVATE_TOKEN}}"}],
+        "header": [
+          {
+            "key": "PRIVATE-TOKEN",
+            "value": "{{PRIVATE_TOKEN}}"
+          }
+        ],
         "url": "{{GITLAB_URL}}/api/v4/projects/{{PROJECT_ID}}/pipelines",
         "description": "Docs: https://docs.gitlab.com/ee/api/pipelines.html"
       }
@@ -58,7 +73,12 @@
       "name": "List Project Webhooks",
       "request": {
         "method": "GET",
-        "header": [{"key": "PRIVATE-TOKEN", "value": "{{PRIVATE_TOKEN}}"}],
+        "header": [
+          {
+            "key": "PRIVATE-TOKEN",
+            "value": "{{PRIVATE_TOKEN}}"
+          }
+        ],
         "url": "{{GITLAB_URL}}/api/v4/projects/{{PROJECT_ID}}/hooks",
         "description": "Docs: https://docs.gitlab.com/ee/api/projects.html#list-project-hooks"
       }
@@ -67,10 +87,60 @@
       "name": "Retrieve Audit Logs (Premium Only)",
       "request": {
         "method": "GET",
-        "header": [{"key": "PRIVATE-TOKEN", "value": "{{PRIVATE_TOKEN}}"}],
+        "header": [
+          {
+            "key": "PRIVATE-TOKEN",
+            "value": "{{PRIVATE_TOKEN}}"
+          }
+        ],
         "url": "{{GITLAB_URL}}/api/v4/audit_events",
         "description": "Requires GitLab Premium. Docs: https://docs.gitlab.com/ee/api/audit_events.html"
       }
+    },
+    {
+      "name": "Check Tokens Nearing Expiry (Advanced Filters)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "PRIVATE-TOKEN",
+            "value": "{{PRIVATE_TOKEN}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{GITLAB_URL}}/api/v4/projects/{{project_id}}/access_tokens",
+          "host": [
+            "{{GITLAB_URL}}"
+          ],
+          "path": [
+            "api",
+            "v4",
+            "projects",
+            "{{project_id}}",
+            "access_tokens"
+          ],
+          "query": [
+            {
+              "key": "token_name",
+              "value": "example-token",
+              "description": "Filter tokens by name substring"
+            },
+            {
+              "key": "created_before",
+              "value": "2025-01-01",
+              "description": "Filter tokens created before this date"
+            },
+            {
+              "key": "created_after",
+              "value": "2024-01-01",
+              "description": "Filter tokens created after this date"
+            }
+          ]
+        },
+        "description": "Get project access tokens nearing expiry with optional filters (name, creation date)."
+      },
+      "response": []
     }
   ],
   "event": [

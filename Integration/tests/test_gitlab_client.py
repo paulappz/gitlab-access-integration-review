@@ -2,6 +2,8 @@ import pytest
 import requests
 from unittest.mock import Mock, patch
 from api.gitlab_client import GitLabAPIClient
+from datetime import datetime, timedelta
+
 
 @pytest.fixture(autouse=True)
 def no_sleep():
@@ -89,3 +91,33 @@ def test_error_handling(mock_client, mocker):
     # Expect no exception, but result should be empty
     result = mock_client._paginated_get("projects/2/access_tokens")
     assert result == []
+
+def test_check_token_expiry_filters(mock_client, mocker):
+    today = datetime.now()
+    token_list = [
+        {
+            "id": 1,
+            "name": "test-token",
+            "created_at": (today - timedelta(days=40)).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "expires_at": (today + timedelta(days=10)).strftime("%Y-%m-%d"),
+        },
+        {
+            "id": 2,
+            "name": "another-token",
+            "created_at": (today - timedelta(days=10)).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "expires_at": (today + timedelta(days=5)).strftime("%Y-%m-%d"),
+        },
+    ]
+
+    mocker.patch("requests.get", side_effect=mock_responses(token_list, []))
+    
+    results = mock_client.check_token_expiry(
+        project_id=2,
+        days_threshold=15,
+        token_name="test",
+        created_before=(today - timedelta(days=20)).strftime("%Y-%m-%d"),
+        created_after=(today - timedelta(days=60)).strftime("%Y-%m-%d")
+    )
+    
+    assert len(results) == 1
+    assert results[0]["name"] == "test-token"
